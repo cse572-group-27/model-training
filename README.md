@@ -8,3 +8,5 @@ We've included the `dictionary.txt` and `segments.csv` here as well as the Jupyt
 `segments.csv` can be recreated using the [`sponsorblock-data-prep` repo](https://github.com/cse572-group-27/sponsorblock-data-prep/tree/main).
 We have provided access to a completed SQLite database. To make the data in the database usable for training
 the model, simply copy the contents of the segments table to `segments.csv`.
+
+The colab version can be found [here](https://colab.research.google.com/drive/1H6fjBoc3WMKEIjf8mHc88t6ujuSwZSNu?usp=sharing)
