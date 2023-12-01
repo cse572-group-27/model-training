@@ -7,6 +7,30 @@ from sklearn.utils import class_weight
 from torch import nn
 import json
 from collections import defaultdict
+
+def test_two_models(model1, model2, dataset1, dataset2, device):
+  tp,fp,tn,fn = 0.0,0.0,0.0,0.0
+  total = 0.0
+  data_loader1 = torch.utils.data.DataLoader(dataset1,shuffle=False,batch_size=1)
+  data_loader2 = torch.utils.data.DataLoader(dataset2,shuffle=False,batch_size=1)
+  for (inp,lbl),(inp2,lbl2) in zip(data_loader1,data_loader2):
+    lbl = lbl.to(device)#.unsqueeze(0)
+    mask = inp['attention_mask'].to(device)
+    input_id = inp['input_ids'].squeeze(1).to(device)
+    output = model1(input_id, mask)
+    lbl2 = lbl2.to(device)#.unsqueeze(0)
+    mask = inp2['attention_mask'].to(device)
+    input_id = inp2['input_ids'].squeeze(1).to(device)
+    output += model2(input_id, mask)
+    # output = output.view(lbl.shape)
+    predict = output.argmax(dim=1)
+    total += len(lbl)
+    tp += (lbl*(lbl==predict)).sum()
+    tn += ((1-lbl)*(lbl==predict)).sum()
+    fp += ((1-lbl)*(lbl!=predict)).sum()
+    fn += (lbl*(lbl!=predict)).sum()
+  return {"accuracy":(tp+tn)/(tp+tn+fp+fn), "precision":tp/(tp+fp), "recall": tp/(tp+fn)}
+
 def evaluate(model, data_loader, device):
   tp,fp,tn,fn = 0.0,0.0,0.0,0.0
   total = 0.0
