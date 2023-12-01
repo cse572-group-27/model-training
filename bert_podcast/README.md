@@ -12,3 +12,8 @@ Step 3: Run train code to get the model
 ```
 ./train.sh
 ```
+
+Step 4: Evaluate the model
+```
+python eval.py
+```
