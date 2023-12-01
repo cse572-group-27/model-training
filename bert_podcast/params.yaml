@@ -1,8 +1,8 @@
 labels: 
     non-sponsor: 0
     sponsor: 1    
-csv_path: "/home/tson1997/Downloads/spotify-train.csv"
+csv_path: "PATH TO spotify-train.csv FILE"
 train_parms:
-    epochs_total: 1
-    epoch_first512: 7
-    epoch_last512: 8
+    epochs_total: 20
+    epoch_first512: 11
+    epoch_last512: 11
